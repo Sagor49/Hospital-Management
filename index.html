@@ -15,16 +15,19 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  
+
 <!-- ============ NAVBAR ============ -->
-<header class="site-header">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+<header class="site-header" id="siteHeader">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
       <a class="navbar-brand" href="index.html">
         <i class="bi bi-heart-pulse-fill"></i>City Care
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+              aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="toggler-line line1"></span>
+        <span class="toggler-line line2"></span>
+        <span class="toggler-line line3"></span>
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
@@ -597,6 +600,33 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+  // Sticky header shadow on scroll
+  document.addEventListener('DOMContentLoaded', function () {
+    var header = document.getElementById('siteHeader');
+    function toggleHeaderShadow() {
+      if (window.scrollY > 8) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    }
+    toggleHeaderShadow();
+    window.addEventListener('scroll', toggleHeaderShadow, { passive: true });
+
+    // Close the mobile menu automatically when a nav link is clicked
+    var navMenu = document.getElementById('navMenu');
+    if (navMenu) {
+      navMenu.querySelectorAll('.nav-link, .btn-login, .btn-dark-pill').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (navMenu.classList.contains('show') && window.bootstrap) {
+            var collapseInstance = bootstrap.Collapse.getOrCreateInstance(navMenu);
+            collapseInstance.hide();
+          }
+        });
+      });
+    }
+  });
+
   // Scroll-reveal animation for sections & cards
   document.addEventListener('DOMContentLoaded', function () {
     var revealEls = document.querySelectorAll('.reveal');
