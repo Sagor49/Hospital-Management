@@ -281,13 +281,25 @@ em {
 
 /* ---------- Mobile dropdown menu panel — up to 1024px ---------- */
 @media (max-width: 1024px) {
+  /* Float the open menu over the page instead of pushing content
+     (like the hero) down when it expands. */
+  .navbar { position: relative; }
+  .navbar > .container { position: relative; }
   .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     background: #fff;
-    border-radius: var(--radius-md);
-    margin-top: 16px;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    margin-top: 0;
     padding: 18px;
-    box-shadow: 0 20px 45px rgba(15,28,25,0.14);
+    box-shadow: 0 20px 45px rgba(15,28,25,0.18);
     border: 1px solid #eef1ef;
+    border-top: none;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    z-index: 1040;
   }
   .navbar-nav { gap: 2px; }
   .nav-link {
