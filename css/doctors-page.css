@@ -46,7 +46,7 @@
 .doctor-filter-bar {
   background: #fff;
   border-bottom: 1px solid #eef1ef;
-  padding: 28px 0;
+  padding: 60px 40px;
 }
 .doctor-filter-bar .form-control,
 .doctor-filter-bar .form-select {
@@ -127,4 +127,8 @@
   .doctor-filter-bar .col-md-2,
   .doctor-filter-bar .col-md-4,
   .doctor-filter-bar .col-md-5 { width: 100%; }
+
+  .doctor-filter-bar {
+  padding: 30px 20px;
+}
 }
