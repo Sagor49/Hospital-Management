@@ -1,0 +1,200 @@
+/* =========================================================
+   City Care Hospital — Contact Page Styles
+   (Navbar, footer, buttons, badges, section-pad, cta-banner etc.
+   all come from css/style.css — this file only holds what's new
+   for the Contact page.)
+   Breakpoints: Tablet <= 1024px | Mobile <= 767px
+   ========================================================= */
+
+/* ============ PAGE HEADER (banner) ============ */
+.page-header {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+}
+.page-header-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.page-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,28,25,0.88) 0%, rgba(31,75,67,0.72) 55%, rgba(15,28,25,0.55) 100%);
+}
+.page-header .container { padding-top: 120px; padding-bottom: 40px; padding-left: var(--sec-pad-x); padding-right: var(--sec-pad-x); }
+.page-header .badge-pill { margin-bottom: 18px; }
+.page-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  max-width: 620px;
+  margin-bottom: 18px;
+}
+.page-header h1 em {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--accent);
+}
+.page-header-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+}
+.page-header-breadcrumb li:not(:last-child)::after {
+  content: '/';
+  margin-left: 8px;
+  color: rgba(255,255,255,0.4);
+}
+.page-header-breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.25s ease; }
+.page-header-breadcrumb a:hover { color: #fff; }
+.page-header-breadcrumb li.active { color: var(--accent); font-weight: 500; }
+
+/* ============ SECTION 1 — CONTACT INFO + FORM ============ */
+.contact-section { background: #fff; }
+
+.contact-info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--sage);
+  border-radius: var(--radius-md);
+  padding: 24px 22px;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.contact-info-card:hover { transform: translateY(-6px); box-shadow: 0 18px 36px rgba(15,28,25,0.1); }
+.contact-info-icon {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+.contact-info-card h6 { font-weight: 600; margin-bottom: 6px; }
+.contact-info-card p { margin-bottom: 2px; font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+.contact-info-card p a { color: var(--text); text-decoration: none; }
+.contact-info-card p a:hover { color: var(--accent); }
+
+.contact-form-card {
+  background: #fff;
+  border: 1px solid #eef1ef;
+  border-radius: var(--radius-lg);
+  padding: 44px;
+  height: 100%;
+  box-shadow: 0 20px 50px rgba(15,28,25,0.06);
+}
+.contact-form-card h3 { font-weight: 700; margin-bottom: 6px; }
+.contact-form .form-label { font-weight: 500; margin-bottom: 6px; font-size: 0.92rem; }
+.contact-form .form-control,
+.contact-form .form-select {
+  border-radius: 10px;
+  border: 1px solid #e5e9e6;
+  background: #f7faf8;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+}
+.contact-form .form-control:focus,
+.contact-form .form-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem rgba(212,168,83,0.15);
+  background: #fff;
+}
+.contact-form textarea.form-control { resize: none; }
+
+/* ============ SECTION 2 — MAP + DEPARTMENT CONTACTS ============ */
+.find-us-section { background: var(--sage); }
+
+.contact-map-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 100%;
+  min-height: 420px;
+  box-shadow: 0 20px 50px rgba(15,28,25,0.1);
+}
+.contact-map-wrap iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: 0;
+  display: block;
+  filter: grayscale(15%);
+}
+
+.dept-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+  justify-content: center;
+}
+.dept-contact-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dept-contact-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(15,28,25,0.1); }
+.dept-contact-icon {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--sage);
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.dept-contact-card:hover .dept-contact-icon { background: var(--dark); color: #fff; }
+.dept-contact-card h6 { font-weight: 600; margin-bottom: 4px; }
+.dept-contact-card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0; }
+
+/* =========================================================
+   TABLET — max-width: 1024px
+   ========================================================= */
+@media (max-width: 1024px) {
+  .page-header { min-height: 320px; }
+  .page-header .container { padding-top: 100px; padding-bottom: 32px; }
+  .page-header h1 { font-size: 2.4rem; }
+
+  .contact-form-card { padding: 32px; }
+  .contact-map-wrap { min-height: 340px; }
+  .contact-map-wrap iframe { min-height: 340px; }
+}
+
+/* =========================================================
+   MOBILE — max-width: 767px
+   ========================================================= */
+@media (max-width: 767px) {
+  .page-header { min-height: 280px; text-align: center; }
+  .page-header .container { padding-top: 90px; padding-bottom: 26px; }
+  .page-header h1 { font-size: 1.8rem; margin-left: auto; margin-right: auto; }
+  .page-header-breadcrumb { justify-content: center; }
+
+  .contact-form-card { padding: 24px; }
+  .contact-info-card { padding: 20px; }
+  .contact-map-wrap { min-height: 280px; }
+  .contact-map-wrap iframe { min-height: 280px; }
+  .dept-contact-card { padding: 16px 18px; }
+}
