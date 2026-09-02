@@ -1,0 +1,130 @@
+/* =========================================================
+   City Care Hospital — Doctors (public listing) Page Styles
+   (Navbar, footer, buttons, badges, section-pad, cta-banner etc.
+   all come from css/style.css — this file only holds what's new
+   for the Doctors page.)
+   Breakpoints: Tablet <= 1024px | Mobile <= 767px
+   ========================================================= */
+
+/* ============ PAGE HEADER (banner) ============ */
+.page-header {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+}
+.page-header-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 62%;
+}
+.page-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,28,25,0.88) 0%, rgba(31,75,67,0.72) 55%, rgba(15,28,25,0.55) 100%);
+}
+.page-header .container { padding-top: 120px; padding-bottom: 40px; padding-left: var(--sec-pad-x); padding-right: var(--sec-pad-x); }
+.page-header .badge-pill { margin-bottom: 18px; }
+.page-header h1 { font-size: 3rem; font-weight: 700; max-width: 620px; margin-bottom: 18px; }
+.page-header h1 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); }
+.page-header-breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  list-style: none; padding: 0; margin: 0;
+  font-size: 0.9rem; color: rgba(255,255,255,0.75);
+}
+.page-header-breadcrumb li:not(:last-child)::after { content: '/'; margin-left: 8px; color: rgba(255,255,255,0.4); }
+.page-header-breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.25s ease; }
+.page-header-breadcrumb a:hover { color: #fff; }
+.page-header-breadcrumb li.active { color: var(--accent); font-weight: 500; }
+
+/* ============ FILTER BAR ============ */
+.doctor-filter-bar {
+  background: #fff;
+  border-bottom: 1px solid #eef1ef;
+  padding: 28px 0;
+}
+.doctor-filter-bar .form-control,
+.doctor-filter-bar .form-select {
+  border-radius: 10px;
+  border: 1px solid #e5e9e6;
+  background: #f7faf8;
+  padding: 12px 14px;
+}
+.doctor-filter-bar .form-control:focus,
+.doctor-filter-bar .form-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem rgba(212,168,83,0.15);
+  background: #fff;
+}
+.doctor-clear-filter {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-muted); font-size: 0.88rem; text-decoration: none;
+}
+.doctor-clear-filter:hover { color: var(--accent); }
+
+/* ============ DOCTOR CARDS ============ */
+.doctor-grid-section { background: #f7faf8; }
+
+.doctor-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 4px 14px rgba(15,28,25,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.doctor-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(15,28,25,0.14); }
+
+.doctor-card-img { position: relative; height: 240px; background: var(--sage); }
+.doctor-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.doctor-card-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; color: var(--dark); opacity: 0.35;
+}
+.doctor-card-dept {
+  position: absolute;
+  left: 12px; bottom: 12px;
+  background: rgba(15,28,25,0.75);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 30px;
+}
+
+.doctor-card-body { padding: 20px; text-align: center; }
+.doctor-card-body h6 { font-weight: 700; margin-bottom: 4px; }
+.doctor-card-designation { color: var(--accent); font-size: 0.85rem; font-weight: 500; margin-bottom: 10px; }
+.doctor-card-exp { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px; }
+.doctor-card-exp i { margin-right: 4px; }
+
+/* =========================================================
+   TABLET — max-width: 1024px
+   ========================================================= */
+@media (max-width: 1024px) {
+  .page-header { min-height: 320px; }
+  .page-header .container { padding-top: 100px; padding-bottom: 32px; }
+  .page-header h1 { font-size: 2.4rem; }
+}
+
+/* =========================================================
+   MOBILE — max-width: 767px
+   ========================================================= */
+@media (max-width: 767px) {
+  .page-header { min-height: 280px; text-align: center; }
+  .page-header .container { padding-top: 90px; padding-bottom: 26px; }
+  .page-header h1 { font-size: 1.8rem; margin-left: auto; margin-right: auto; }
+  .page-header-breadcrumb { justify-content: center; }
+
+  .doctor-filter-bar .col-md-2,
+  .doctor-filter-bar .col-md-4,
+  .doctor-filter-bar .col-md-5 { width: 100%; }
+}
