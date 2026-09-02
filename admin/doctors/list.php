@@ -104,7 +104,7 @@ require __DIR__ . '/../includes/admin_header.php';
                         data-form-id="doctor-purge-form-<?php echo $doc['id']; ?>"
                         data-action="purge"
                         data-doctor-name="Dr. <?php echo htmlspecialchars($doc['name']); ?>"
-                        data-confirm-label="Yes, Delete Forever">
+                        data-confirm-label="Delete">
                   <i class="bi bi-x-octagon-fill"></i>
                 </button>
               <?php endif; ?>
