@@ -649,6 +649,9 @@ em {
 }
 .appointment-img-text h2 { font-size: 2rem; font-weight: 700; margin-bottom: 14px; }
 .appointment-img-text p { opacity: 0.9; margin-bottom: 24px; }
+/* .appointment-img-text is a column flexbox, whose default
+   align-items: stretch was stretching the button to full width. */
+.appointment-img-text .btn-cream-pill { align-self: flex-start; }
 
 .appointment-form { padding: 60px; }
 .appointment-form .form-label { font-weight: 500; margin-bottom: 6px; }
@@ -728,6 +731,40 @@ em {
 }
 .stars { color: var(--accent); margin-bottom: 14px; }
 .testimonial-main-card p, .testimonial-mini-card p { color: var(--text); line-height: 1.7; }
+
+/* Auto-sliding testimonial marquee — right to left, continuous loop.
+   The card set is duplicated in the HTML (two .testimonial-slide-set
+   blocks) and the track animates from 0 to -50%, i.e. exactly one
+   copy's width, so the loop is seamless. */
+.testimonial-slider {
+  overflow: hidden;
+  margin-top: 32px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%);
+}
+.testimonial-slider-track {
+  display: flex;
+  width: max-content;
+  animation: testimonialSlide 28s linear infinite;
+}
+.testimonial-slider:hover .testimonial-slider-track { animation-play-state: paused; }
+.testimonial-slide-set {
+  display: flex;
+  gap: 24px;
+  padding-right: 24px;
+  flex-shrink: 0;
+}
+.testimonial-slider .testimonial-mini-card {
+  width: 380px;
+  flex: 0 0 380px;
+}
+@keyframes testimonialSlide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-slider-track { animation: none; }
+}
 
 /* ============ FAQ ============ */
 
@@ -933,6 +970,7 @@ em {
   .doctor-mini-card img { height: 320px; }
 
   .testimonial-box { padding: 40px; }
+  .testimonial-slider .testimonial-mini-card { width: 320px; flex: 0 0 320px; }
 
   .cta-banner { padding: 50px 40px; }
   .cta-banner h2 { font-size: 1.9rem; }
@@ -978,6 +1016,9 @@ em {
   .appointment-img-text h2 { font-size: 1.5rem; }
 
   .doctor-mini-card img { height: 300px; }
+
+  .testimonial-slider .testimonial-mini-card { width: 270px; flex: 0 0 270px; }
+  .testimonial-slide-set { gap: 16px; padding-right: 16px; }
 
   .testimonial-box { padding: 24px; border-radius: var(--radius-md); }
 
