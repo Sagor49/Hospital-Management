@@ -46,6 +46,30 @@ em {
   color: var(--accent-2);
 }
 
+/* Bootstrap's .container ships with its own 1.5rem left/right gutter
+   (--bs-gutter-x) AND a stepped max-width that jumps between fixed
+   values (960px from 992px up to 1199px, 1140px from 1200px, etc).
+   We handle horizontal spacing ourselves via --sec-pad-x, so the
+   gutter is switched off, and instead of Bootstrap's stepped jumps
+   (which starved the desktop navbar of room around 1025px-1199px)
+   the container just flows with the viewport up to a single sane cap
+   so content never stretches edge-to-edge on very wide screens. */
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+  --bs-gutter-x: 0;
+  width: 100%;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .section-pad {
   padding: var(--sec-pad-y) var(--sec-pad-x);
 }
@@ -203,6 +227,7 @@ em {
   padding: 18px 0;
   transition: padding 0.3s ease;
 }
+.navbar > .container { padding-left: var(--sec-pad-x); padding-right: var(--sec-pad-x); position: relative; }
 .site-header.is-scrolled .navbar { padding: 12px 0; }
 
 .navbar-brand {
@@ -212,6 +237,10 @@ em {
   display: flex;
   align-items: center;
   gap: 8px;
+  /* Bootstrap's own .navbar-brand ships with margin-right: 1rem,
+     which added an extra 16px only on the logo side and threw off
+     the equal-gap split around the centered nav links. */
+  margin-right: 0;
 }
 .navbar-brand i { color: var(--dark); font-size: 1.3rem; }
 
@@ -275,8 +304,38 @@ em {
     flex-grow: 1;
     align-items: center;
   }
-  .navbar-collapse .navbar-nav { flex-direction: row; }
-  .navbar-collapse > div.d-flex { flex-direction: row !important; }
+  /* .mobile-menu-card only exists to give the mobile dropdown its own
+     white card + padding — on desktop it must not interfere with the
+     row layout, so it becomes a transparent pass-through flex row. */
+  .mobile-menu-card {
+    display: flex !important;
+    align-items: center;
+    flex: 1;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+  }
+  /* Nav links sit centered in the middle of the header, with the
+     logo on the left and the login/book buttons hugging the right —
+     auto margins on both sides of the nav (and before the buttons)
+     split the remaining space evenly, and unlike absolute-centering
+     this can never overlap the buttons on a narrower desktop width. */
+  /* Exactly two auto-margin edges (nav's left, buttons' left) split
+     the leftover space into two EQUAL gaps: logo-to-nav and
+     nav-to-buttons. (Giving the nav auto margins on both sides, on
+     top of the buttons' own left auto margin, was three competing
+     auto edges — the middle gap ended up roughly double the first.) */
+  .navbar-collapse .navbar-nav {
+    flex-direction: row;
+    margin: 0 !important;
+    margin-left: auto !important;
+  }
+  .navbar-collapse .d-flex {
+    flex-direction: row !important;
+    margin-left: auto !important;
+  }
 }
 
 /* ---------- Mobile dropdown menu panel — up to 1024px ---------- */
@@ -285,21 +344,35 @@ em {
      (like the hero) down when it expands. */
   .navbar { position: relative; }
   .navbar > .container { position: relative; }
+
+  /* Keep the toggle button breathing room when the sticky header
+     shrinks on scroll — the desktop padding drop (18px -> 12px) reads
+     as too tight on mobile, where the header sits flush at the very
+     top of the viewport. */
+  .site-header.is-scrolled .navbar { padding: 16px 0; }
   .navbar-collapse {
     position: absolute;
-    top: 100%;
+    top: 138%;
     left: 0;
     right: 0;
-    background: #fff;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    /* Solid backdrop color filling the whole space below the header,
+       so whatever section sits behind (hero image, etc.) never shows
+       through — the white menu card floats on top of this with its
+       own padding/gap. */
+    background: var(--sage);
     margin-top: 0;
+    padding: 16px;
+    min-height: 100vh;
+    z-index: 1040;
+  }
+  .mobile-menu-card {
+    background: #fff;
+    border-radius: var(--radius-md);
     padding: 18px;
     box-shadow: 0 20px 45px rgba(15,28,25,0.18);
     border: 1px solid #eef1ef;
-    border-top: none;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-    z-index: 1040;
+    position: relative;
+    z-index: 1;
   }
   .navbar-nav { gap: 2px; }
   .nav-link {
@@ -354,6 +427,45 @@ em {
   from { transform: scale(1); }
   to { transform: scale(1.08); }
 }
+
+.hero-carousel-indicators {
+  position: absolute;
+  left: var(--sec-pad-x);
+  bottom: 28px;
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+.hero-carousel-indicators button {
+  width: 30px;
+  height: 4px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.4);
+  padding: 0;
+  transition: background 0.3s ease, width 0.3s ease;
+}
+.hero-carousel-indicators button.active { background: var(--accent); width: 42px; }
+
+.hero-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(15,28,25,0.35);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.hero-carousel-arrow:hover { background: var(--accent); border-color: var(--accent); }
+.hero-carousel-arrow.prev { left: var(--sec-pad-x); }
+.hero-carousel-arrow.next { right: var(--sec-pad-x); }
 
 .hero-overlay {
   position: absolute; inset: 0;
@@ -660,30 +772,70 @@ em {
 
 /* ============ CTA BANNER ============ */
 .cta-banner {
-  background: linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 100%);
+  background:
+    radial-gradient(circle at 12% 115%, rgba(122,168,150,0.22) 0%, rgba(122,168,150,0) 55%),
+    linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 60%, #12312b 100%);
   color: #fff;
   border-radius: var(--radius-lg);
   padding: 70px 60px;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 34px 70px -24px rgba(6,16,14,0.6);
+}
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.6;
+  pointer-events: none;
 }
 .cta-banner::after {
   content: '';
   position: absolute;
   right: -60px; top: -60px;
-  width: 280px; height: 280px;
+  width: 320px; height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(217,164,65,0.25) 0%, rgba(217,164,65,0) 70%);
+  background: radial-gradient(circle, rgba(217,164,65,0.28) 0%, rgba(217,164,65,0) 70%);
+  pointer-events: none;
 }
-.cta-banner h2 { font-size: 2.2rem; font-weight: 700; max-width: 560px; margin-bottom: 16px; position: relative; }
-.cta-banner p { max-width: 480px; opacity: 0.85; margin-bottom: 26px; position: relative; }
-.cta-banner .btn-cream-pill { position: relative; }
+.cta-banner .badge-pill {
+  background: rgba(217,164,65,0.14);
+  border-color: rgba(217,164,65,0.45);
+  color: var(--accent);
+}
+.cta-banner .badge-pill i { margin-right: 4px; }
+.cta-banner h2 { font-size: 2.3rem; font-weight: 700; line-height: 1.25; max-width: 560px; margin-bottom: 16px; position: relative; letter-spacing: -0.3px; }
+.cta-banner p { max-width: 480px; opacity: 0.85; margin-bottom: 30px; position: relative; }
+.cta-banner .btn-cream-pill { position: relative; box-shadow: 0 14px 30px -8px rgba(0,0,0,0.35); }
+
+.cta-trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+  max-width: 560px;
+}
+.cta-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.78);
+}
+.cta-trust-item i { color: var(--accent); font-size: 1.05rem; }
 
 /* ============ FOOTER ============ */
 .site-footer {
   background: var(--footer-bg);
   color: #b8c0bc;
-  padding: 80px 0 0;
+  padding: 80px var(--sec-pad-x) 0;
 }
 .footer-brand {
   font-size: 1.4rem;
@@ -767,7 +919,7 @@ em {
 
   .hero { min-height: 560px; }
   .hero-title { font-size: 2.6rem; }
-
+  .hero-carousel-arrow { width: 40px; height: 40px; font-size: 1rem; }
 
   .about-quote-card { position: static; margin-top: -40px; margin-left: auto; margin-right: auto; }
 
@@ -803,6 +955,8 @@ em {
   .hero-title { font-size: 1.9rem; }
   .hero-desc { margin-left: auto; margin-right: auto; }
   .hero-actions { justify-content: center; }
+  .hero-carousel-arrow { display: none; }
+  .hero-carousel-indicators { left: 0; right: 0; justify-content: center; }
 
   .about-img-wrap { margin-bottom: 60px; }
   .about-quote-card { position: static; margin-top: -50px; max-width: 100%; }
@@ -832,6 +986,7 @@ em {
   .cta-banner { padding: 36px 22px; text-align: center; }
   .cta-banner h2 { font-size: 1.6rem; margin-left: auto; margin-right: auto; }
   .cta-banner p { margin-left: auto; margin-right: auto; }
+  .cta-trust-row { justify-content: center; margin-left: auto; margin-right: auto; }
 
   .site-footer { text-align: center; padding-top: 50px; }
   .footer-socials { justify-content: center; }
