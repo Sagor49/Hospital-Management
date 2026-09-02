@@ -1,0 +1,205 @@
+/* =========================================================
+   City Care Hospital — Services Page Styles
+   (Navbar, footer, buttons, badges, section-pad, service-card,
+   process-steps, about-img/about-quote-card, feature-row etc. all
+   come from css/style.css — this file only holds what's new for
+   the Services page.)
+   Breakpoints: Tablet <= 1024px | Mobile <= 767px
+   ========================================================= */
+
+/* ============ PAGE HEADER (banner) ============ */
+.page-header {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+}
+.page-header-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+.page-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,28,25,0.88) 0%, rgba(31,75,67,0.72) 55%, rgba(15,28,25,0.55) 100%);
+}
+.page-header .container { padding-top: 120px; padding-bottom: 40px; padding-left: var(--sec-pad-x); padding-right: var(--sec-pad-x); }
+.page-header .badge-pill { margin-bottom: 18px; }
+.page-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  max-width: 620px;
+  margin-bottom: 18px;
+}
+.page-header h1 em {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--accent);
+}
+.page-header-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+}
+.page-header-breadcrumb li:not(:last-child)::after {
+  content: '/';
+  margin-left: 8px;
+  color: rgba(255,255,255,0.4);
+}
+.page-header-breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.25s ease; }
+.page-header-breadcrumb a:hover { color: #fff; }
+.page-header-breadcrumb li.active { color: var(--accent); font-weight: 500; }
+
+/* ============ SECTION 1 — SERVICES GRID ============ */
+/* Reuses .service-card from style.css as-is. */
+
+/* ============ SECTION 2 — DEPARTMENTS ============ */
+.departments-section { background: var(--sage); }
+.department-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 30px 24px;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.department-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(15,28,25,0.12);
+}
+.department-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--sage);
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.department-card:hover .department-icon { background: var(--dark); color: #fff; transform: rotate(-8deg) scale(1.06); }
+.department-card h6 { font-weight: 600; margin-bottom: 8px; }
+.department-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0; }
+
+/* ============ SECTION 3 — HOW IT WORKS ============ */
+/* Reuses .process-steps, .step-num, .process-img from style.css. */
+
+/* ============ SECTION 4 — PRICING PLANS ============ */
+.pricing-section { background: var(--sage); }
+.btn-outline-dark-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px solid var(--dark);
+  color: var(--dark);
+  border-radius: 40px;
+  padding: 12px 26px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  width: 100%;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.25s ease;
+}
+.btn-outline-dark-pill:hover { background: var(--dark); color: #fff; transform: translateY(-2px); }
+
+.pricing-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #eef1ef;
+  border-radius: var(--radius-lg);
+  padding: 44px 36px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pricing-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(15,28,25,0.1); }
+.pricing-card .badge-outline { margin-bottom: 18px; align-self: flex-start; }
+.pricing-amount { font-size: 2.6rem; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+.pricing-amount span { font-size: 1rem; font-weight: 500; color: var(--text-muted); }
+.pricing-desc { color: var(--text-muted); margin-bottom: 24px; }
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px;
+  flex-grow: 1;
+}
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #f0f2f0;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.pricing-features li:first-child { border-top: none; }
+.pricing-features li i { color: var(--accent); margin-top: 3px; }
+
+.pricing-card-featured {
+  background: var(--dark);
+  border-color: var(--dark);
+  color: #fff;
+  transform: scale(1.03);
+}
+.pricing-card-featured:hover { transform: scale(1.03) translateY(-8px); }
+.pricing-card-featured .pricing-amount,
+.pricing-card-featured .pricing-amount span,
+.pricing-card-featured .pricing-desc { color: #fff; }
+.pricing-card-featured .pricing-features li { border-top-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+.pricing-card-featured .badge-pill { margin-bottom: 18px; text-align: center; }
+.pricing-card-featured .btn-cream-pill { justify-content: center; }
+.pricing-tag {
+  position: absolute;
+  top: -14px;
+  right: 32px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 6px 16px;
+  border-radius: 40px;
+}
+
+/* ============ SECTION 5 — WHY OUR SERVICES STAND OUT ============ */
+.quality-section { background: #fff; }
+
+/* =========================================================
+   TABLET — max-width: 1024px
+   ========================================================= */
+@media (max-width: 1024px) {
+  .page-header { min-height: 320px; }
+  .page-header .container { padding-top: 100px; padding-bottom: 32px; }
+  .page-header h1 { font-size: 2.4rem; }
+
+  .pricing-card-featured { transform: scale(1); }
+  .pricing-card-featured:hover { transform: translateY(-8px); }
+}
+
+/* =========================================================
+   MOBILE — max-width: 767px
+   ========================================================= */
+@media (max-width: 767px) {
+  .page-header { min-height: 280px; text-align: center; }
+  .page-header .container { padding-top: 90px; padding-bottom: 26px; }
+  .page-header h1 { font-size: 1.8rem; margin-left: auto; margin-right: auto; }
+  .page-header-breadcrumb { justify-content: center; }
+
+  .department-card { padding: 26px 20px; }
+  .pricing-card { padding: 32px 26px; }
+}
