@@ -695,6 +695,67 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
     revealEls.forEach(function (el) { observer.observe(el); });
   });
+
+  // Animated count-up for stats numbers
+  document.addEventListener('DOMContentLoaded', function () {
+    var statEls = document.querySelectorAll('.stats-row h3');
+    if (!statEls.length) return;
+
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function parseStat(el) {
+      var textNode = el.childNodes[0];
+      if (!textNode || textNode.nodeType !== 3) return null;
+      var match = textNode.textContent.trim().match(/^(\d+)(.*)$/);
+      if (!match) return null;
+      return { el: el, node: textNode, target: parseInt(match[1], 10), suffix: match[2] };
+    }
+
+    var stats = [];
+    statEls.forEach(function (el) {
+      var stat = parseStat(el);
+      if (stat) {
+        stats.push(stat);
+        if (!reduceMotion) stat.node.textContent = '0' + stat.suffix;
+      }
+    });
+
+    if (reduceMotion || !stats.length) return;
+
+    function animateStat(stat) {
+      var duration = 1600;
+      var start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        stat.node.textContent = Math.floor(eased * stat.target) + stat.suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          stat.node.textContent = stat.target + stat.suffix;
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      stats.forEach(animateStat);
+      return;
+    }
+
+    var statObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var stat = stats.find(function (s) { return s.el === entry.target; });
+          if (stat) animateStat(stat);
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    stats.forEach(function (stat) { statObserver.observe(stat.el); });
+  });
 </script>
 </body>
 </html>
