@@ -76,7 +76,7 @@
           <a href="appointment.html" class="btn btn-cream-pill">
             Book Appointment <i class="bi bi-arrow-right"></i>
           </a>
-          <a href="#" class="watch-now">
+          <a href="#" class="watch-now" data-bs-toggle="modal" data-bs-target="#videoModal">
             <span class="play-circle"><i class="bi bi-play-fill"></i></span>
             Watch Now
           </a>
@@ -597,6 +597,18 @@
   </div>
 </section>
 
+<!-- ============ VIDEO MODAL ============ -->
+<div class="modal fade video-modal" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <button type="button" class="btn-close-video" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      <div class="ratio ratio-16x9">
+        <iframe id="videoModalFrame" src="" title="City Care Hospital video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="container">
@@ -651,6 +663,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+  // Video modal — load the YouTube embed only while the modal is open
+  document.addEventListener('DOMContentLoaded', function () {
+    var videoModal = document.getElementById('videoModal');
+    if (videoModal) {
+      var videoFrame = document.getElementById('videoModalFrame');
+      var videoSrc = 'https://www.youtube.com/embed/mHAITUtELZo?autoplay=1&rel=0';
+      videoModal.addEventListener('show.bs.modal', function () {
+        videoFrame.src = videoSrc;
+      });
+      videoModal.addEventListener('hidden.bs.modal', function () {
+        videoFrame.src = '';
+      });
+    }
+  });
+
   // Sticky header shadow on scroll
   document.addEventListener('DOMContentLoaded', function () {
     var header = document.getElementById('siteHeader');

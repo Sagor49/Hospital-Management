@@ -501,18 +501,92 @@ em {
   text-decoration: none;
 }
 .play-circle {
-  width: 46px; height: 46px;
-  border: 1px solid rgba(255,255,255,0.6);
+  position: relative;
+  width: 52px; height: 52px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255,255,255,0.75);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem;
-  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  font-size: 1.15rem;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  animation: playBreathe 2.6s ease-in-out infinite;
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+.play-circle i { position: relative; margin-left: 2px; }
+/* Infinite outward "wave" ripple — two glowing gold rings staggered so the pulse never stops */
+.play-circle::before,
+.play-circle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  animation: playWave 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+.play-circle::after { animation-delay: 1.3s; }
+@keyframes playWave {
+  0% { transform: scale(1); opacity: 0.85; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+@keyframes playBreathe {
+  0%, 100% { box-shadow: 0 6px 18px rgba(0,0,0,0.25), 0 0 0 0 rgba(212,168,83,0.35); }
+  50% { box-shadow: 0 6px 18px rgba(0,0,0,0.25), 0 0 0 10px rgba(212,168,83,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-circle { animation: none; }
+  .play-circle::before, .play-circle::after { animation: none; display: none; }
 }
 .watch-now:hover { color: #fff; }
 .watch-now:hover .play-circle {
   background: var(--accent);
   border-color: var(--accent);
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(212,168,83,0.4);
+}
+.watch-now:hover .play-circle::before,
+.watch-now:hover .play-circle::after {
+  border-color: #fff;
+}
+
+/* ============ VIDEO MODAL ============ */
+.video-modal .modal-dialog { max-width: 900px; }
+.video-modal .modal-content {
+  position: relative;
+  background: #000;
+  border: none;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+}
+.video-modal .ratio iframe { border: 0; }
+.video-modal .btn-close-video {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 38px; height: 38px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  z-index: 5;
+}
+.video-modal .btn-close-video:hover {
+  background: var(--accent);
+  border-color: var(--accent);
   transform: scale(1.08);
+}
+@media (max-width: 767px) {
+  .video-modal .btn-close-video { top: 10px; right: 10px; width: 34px; height: 34px; font-size: 0.9rem; }
 }
 
 /* ============ ABOUT ============ */
