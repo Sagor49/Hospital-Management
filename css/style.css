@@ -808,6 +808,7 @@ em {
 .accordion-body { color: var(--text-muted); padding: 4px 24px 22px; background: #f6f8f6; }
 
 /* ============ CTA BANNER ============ */
+.cta-banner-section { background: var(--cream); }
 .cta-banner {
   background:
     radial-gradient(circle at 12% 115%, rgba(122,168,150,0.22) 0%, rgba(122,168,150,0) 55%),
