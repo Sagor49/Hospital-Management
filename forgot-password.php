@@ -57,8 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="auth-body">
 
-<a href="login.php" class="auth-back-home"><i class="bi bi-arrow-left"></i> Back to Login</a>
-
 <div class="auth-card">
   <a href="index.php" class="auth-logo"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
 
