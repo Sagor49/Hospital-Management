@@ -1109,4 +1109,10 @@ em {
   .footer-socials { justify-content: center; }
   .site-footer .col-6 { flex: 0 0 100%; max-width: 100%; }
   .hours-row { text-align: left; }
+  
+  .about-section .reveal-delay-1.is-visible {
+    transition-delay: 0.1s;
+    text-align: center;
+}
+
 }
