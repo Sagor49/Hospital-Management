@@ -133,30 +133,30 @@ require __DIR__ . '/../includes/admin_header.php';
 
   <?php if ($totalRows > 0): ?>
   <div class="admin-pagination">
-  <span class="admin-page-summary">
-    Showing <?php echo $offset + 1; ?>&ndash;<?php echo min($offset + $perPage, $totalRows); ?> of <?php echo $totalRows; ?> doctors
-  </span>
-  <?php if ($totalPages > 1): ?>
-    <div class="admin-page-btns">
-      <?php if ($page > 1): ?>
-        <a href="list.php?status=<?php echo urlencode($filter); ?>&page=<?php echo $page - 1; ?>" class="admin-page-btn">
-          <i class="bi bi-chevron-left"></i> Prev
-        </a>
-      <?php else: ?>
-        <span class="admin-page-btn disabled"><i class="bi bi-chevron-left"></i> Prev</span>
-      <?php endif; ?>
+    <span class="admin-page-summary">
+      Showing <strong><?php echo $offset + 1; ?></strong>&ndash;<strong><?php echo min($offset + $perPage, $totalRows); ?></strong> of <strong><?php echo $totalRows; ?></strong> doctors
+    </span>
+    <?php if ($totalPages > 1): ?>
+      <div class="admin-page-nav">
+        <?php if ($page > 1): ?>
+          <a href="list.php?status=<?php echo urlencode($filter); ?>&page=<?php echo $page - 1; ?>" class="admin-page-circle" title="Previous page">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        <?php else: ?>
+          <span class="admin-page-circle disabled"><i class="bi bi-chevron-left"></i></span>
+        <?php endif; ?>
 
-      <span class="admin-page-info">Page <?php echo $page; ?> of <?php echo $totalPages; ?></span>
+        <span class="admin-page-pill">Page <?php echo $page; ?> <span class="admin-page-pill-sep">of</span> <?php echo $totalPages; ?></span>
 
-      <?php if ($page < $totalPages): ?>
-        <a href="list.php?status=<?php echo urlencode($filter); ?>&page=<?php echo $page + 1; ?>" class="admin-page-btn">
-          Next <i class="bi bi-chevron-right"></i>
-        </a>
-      <?php else: ?>
-        <span class="admin-page-btn disabled">Next <i class="bi bi-chevron-right"></i></span>
-      <?php endif; ?>
-    </div>
-  <?php endif; ?>
+        <?php if ($page < $totalPages): ?>
+          <a href="list.php?status=<?php echo urlencode($filter); ?>&page=<?php echo $page + 1; ?>" class="admin-page-circle" title="Next page">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        <?php else: ?>
+          <span class="admin-page-circle disabled"><i class="bi bi-chevron-right"></i></span>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
   </div>
   <?php endif; ?>
 </div>
