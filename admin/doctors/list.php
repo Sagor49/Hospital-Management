@@ -5,18 +5,34 @@ require_once __DIR__ . '/../../config/db.php';
 define('BASE_URL', '/hospital');
 $pageTitle = 'Doctors';
 
-$filter = $_GET['status'] ?? 'all';
-$where  = '';
+$filter  = $_GET['status'] ?? 'all';
+$perPage = 10;
+$page    = max(1, (int)($_GET['page'] ?? 1));
+
+$counts = $pdo->query(
+    "SELECT COUNT(*) AS total,
+            SUM(status = 'active') AS active,
+            SUM(status = 'inactive') AS inactive
+     FROM doctors"
+)->fetch();
+
+$where = '';
 if ($filter === 'active' || $filter === 'inactive') {
     $where = 'WHERE d.status = ' . $pdo->quote($filter);
 }
+
+$totalRows  = (int)$pdo->query("SELECT COUNT(*) FROM doctors d $where")->fetchColumn();
+$totalPages = max(1, (int)ceil($totalRows / $perPage));
+$page       = min($page, $totalPages);
+$offset     = ($page - 1) * $perPage;
 
 $sql = "SELECT d.id, d.name, d.designation, d.experience_years, d.photo, d.status,
                dept.name AS department_name
         FROM doctors d
         JOIN departments dept ON dept.id = d.department_id
         $where
-        ORDER BY d.created_at DESC";
+        ORDER BY d.created_at DESC
+        LIMIT $perPage OFFSET $offset";
 $doctors = $pdo->query($sql)->fetchAll();
 
 $flash = $_SESSION['flash'] ?? null;
@@ -33,9 +49,9 @@ require __DIR__ . '/../includes/admin_header.php';
 
 <div class="admin-toolbar">
   <div class="btn-group admin-status-tabs" role="group">
-    <a href="list.php?status=all" class="btn btn-sm <?php echo $filter === 'all' ? 'active' : ''; ?>">All</a>
-    <a href="list.php?status=active" class="btn btn-sm <?php echo $filter === 'active' ? 'active' : ''; ?>">Active</a>
-    <a href="list.php?status=inactive" class="btn btn-sm <?php echo $filter === 'inactive' ? 'active' : ''; ?>">Inactive</a>
+    <a href="list.php?status=all" class="btn btn-sm <?php echo $filter === 'all' ? 'active' : ''; ?>">All <span class="admin-tab-count"><?php echo (int)$counts['total']; ?></span></a>
+    <a href="list.php?status=active" class="btn btn-sm <?php echo $filter === 'active' ? 'active' : ''; ?>">Active <span class="admin-tab-count"><?php echo (int)$counts['active']; ?></span></a>
+    <a href="list.php?status=inactive" class="btn btn-sm <?php echo $filter === 'inactive' ? 'active' : ''; ?>">Inactive <span class="admin-tab-count"><?php echo (int)$counts['inactive']; ?></span></a>
   </div>
   <a href="add.php" class="btn btn-dark-pill"><i class="bi bi-plus-lg"></i> Add Doctor</a>
 </div>
@@ -114,6 +130,35 @@ require __DIR__ . '/../includes/admin_header.php';
       </tbody>
     </table>
   </div>
+
+  <?php if ($totalRows > 0): ?>
+  <div class="admin-pagination">
+  <span class="admin-page-summary">
+    Showing <?php echo $offset + 1; ?>&ndash;<?php echo min($offset + $perPage, $totalRows); ?> of <?php echo $totalRows; ?> doctors
+  </span>
+  <?php if ($totalPages > 1): ?>
+    <div class="admin-page-btns">
+      <?php if ($page > 1): ?>
+        <a href="list.php?status=<?php echo urlencode($filter); ?>&page=<?php echo $page - 1; ?>" class="admin-page-btn">
+          <i class="bi bi-chevron-left"></i> Prev
+        </a>
+      <?php else: ?>
+        <span class="admin-page-btn disabled"><i class="bi bi-chevron-left"></i> Prev</span>
+      <?php endif; ?>
+
+      <span class="admin-page-info">Page <?php echo $page; ?> of <?php echo $totalPages; ?></span>
+
+      <?php if ($page < $totalPages): ?>
+        <a href="list.php?status=<?php echo urlencode($filter); ?>&page=<?php echo $page + 1; ?>" class="admin-page-btn">
+          Next <i class="bi bi-chevron-right"></i>
+        </a>
+      <?php else: ?>
+        <span class="admin-page-btn disabled">Next <i class="bi bi-chevron-right"></i></span>
+      <?php endif; ?>
+    </div>
+  <?php endif; ?>
+  </div>
+  <?php endif; ?>
 </div>
 
 <!-- ============ CONFIRM ACTION MODAL ============ -->
