@@ -78,8 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="auth-body">
 
-<a href="index.php" class="auth-back-home"><i class="bi bi-arrow-left"></i> Back to Home</a>
-
 <div class="auth-card">
   <a href="index.php" class="auth-logo"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
   <h1 class="auth-title">Welcome back</h1>
