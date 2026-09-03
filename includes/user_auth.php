@@ -13,6 +13,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Prevent the browser (and its back/forward cache) from ever showing a
+// stale cached copy of a logged-in page after logging out, or vice versa.
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
+
 if (empty($_SESSION['user_id']) && !empty($_COOKIE['remember_me'])) {
     require_once __DIR__ . '/../config/db.php';
 

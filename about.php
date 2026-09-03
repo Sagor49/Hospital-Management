@@ -46,7 +46,7 @@ require_once __DIR__ . '/includes/user_auth.php';
           </ul>
           <div class="d-flex gap-2 justify-content-center mt-3 mt-lg-0">
             <?php if ($isLoggedIn): ?>
-              <a href="logout.php" class="btn btn-login"><i class="bi bi-box-arrow-right"></i> Logout</a>
+              <form action="logout.php" method="post" class="d-inline"><button type="submit" class="btn btn-login"><i class="bi bi-box-arrow-right"></i> Logout</button></form>
             <?php else: ?>
               <a href="login.php" class="btn btn-login">Login</a>
             <?php endif; ?>
