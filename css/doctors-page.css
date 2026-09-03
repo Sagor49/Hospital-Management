@@ -67,8 +67,76 @@
 }
 .doctor-clear-filter:hover { color: var(--accent); }
 
+/* ============ SEARCH AUTOSUGGEST ============ */
+.doctor-search-wrap { position: relative; }
+
+.doctor-suggest-box {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #eef1ef;
+  box-shadow: 0 20px 45px rgba(15,28,25,0.16);
+  max-height: 340px;
+  overflow-y: auto;
+  z-index: 80;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+.doctor-suggest-box.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.doctor-suggest-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.doctor-suggest-item:hover,
+.doctor-suggest-item:focus { background: #f7faf8; outline: none; }
+.doctor-suggest-item + .doctor-suggest-item { border-top: 1px solid #f3f5f3; }
+
+.doctor-suggest-avatar {
+  width: 38px; height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--sage);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--dark);
+  font-size: 1rem;
+}
+.doctor-suggest-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.doctor-suggest-text { display: flex; flex-direction: column; min-width: 0; }
+.doctor-suggest-name {
+  font-weight: 600; font-size: 0.92rem; color: var(--dark);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.doctor-suggest-name strong { color: var(--accent); font-weight: 700; }
+.doctor-suggest-meta {
+  font-size: 0.78rem; color: var(--text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
 /* ============ DOCTOR CARDS ============ */
 .doctor-grid-section { background: #f7faf8; }
+
+#doctorGridContainer { transition: opacity 0.2s ease; min-height: 120px; }
+#doctorGridContainer.is-loading { opacity: 0.35; }
+#doctorGridContainer .reveal {
+  transform: translateY(14px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
 
 .doctor-card {
   background: #fff;

@@ -1,9 +1,12 @@
+<?php
+require_once __DIR__ . '/includes/user_auth.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us | City Care Hospital</title>
+<title>Contact Us | City Care Hospital</title>
 
 <!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,8 +17,8 @@
 
 <!-- Site-wide styles (navbar, footer, buttons, cta-banner, section utilities) -->
 <link rel="stylesheet" href="css/style.css">
-<!-- About page only styles -->
-<link rel="stylesheet" href="css/about.css">
+<!-- Contact page only styles -->
+<link rel="stylesheet" href="css/contact.css">
 </head>
 <body>
 
@@ -23,7 +26,7 @@
 <header class="site-header" id="siteHeader">
   <nav class="navbar navbar-light bg-white">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="index.php">
         <i class="bi bi-heart-pulse-fill"></i>City Care
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
@@ -35,14 +38,18 @@
       <div class="collapse navbar-collapse" id="navMenu">
         <div class="mobile-menu-card">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link active" href="about.html">About Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
             <li class="nav-item"><a class="nav-link" href="doctors.php">Doctors</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link active" href="contact.php">Contact</a></li>
           </ul>
           <div class="d-flex gap-2 justify-content-center mt-3 mt-lg-0">
-            <a href="login.php" class="btn btn-login">Login</a>
+            <?php if ($isLoggedIn): ?>
+              <a href="logout.php" class="btn btn-login"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            <?php else: ?>
+              <a href="login.php" class="btn btn-login">Login</a>
+            <?php endif; ?>
             <a href="appointment.html" class="btn btn-dark-pill">
               Book Appointment <i class="bi bi-arrow-right"></i>
             </a>
@@ -55,179 +62,168 @@
 
 <!-- ============ PAGE HEADER (banner) ============ -->
 <section class="page-header">
-  <img src="Image/darkostojanovic-doctor-563429.jpg" alt="About City Care Hospital" class="page-header-img">
+  <img src="Image/tungart7-doctor-8656663.jpg" alt="Contact City Care Hospital" class="page-header-img">
   <div class="page-header-overlay"></div>
   <div class="container position-relative">
-    <span class="badge-pill">ABOUT CITY CARE</span>
-    <h1>Care Built on <em>Trust</em> and Experience</h1>
+    <span class="badge-pill">GET IN TOUCH</span>
+    <h1>We're Here to <em>Help</em> Anytime</h1>
     <nav aria-label="breadcrumb">
       <ol class="page-header-breadcrumb">
-        <li><a href="index.html">Home</a></li>
-        <li class="active">About Us</li>
+        <li><a href="index.php">Home</a></li>
+        <li class="active">Contact</li>
       </ol>
     </nav>
   </div>
 </section>
 
-<!-- ============ SECTION 1 — OUR STORY ============ -->
-<section class="story-section section-pad">
+<!-- ============ SECTION 1 — CONTACT INFO + FORM ============ -->
+<section class="contact-section section-pad">
   <div class="container">
-    <div class="row g-5 align-items-center">
-      <div class="col-lg-6">
-        <div class="about-img-wrap reveal">
-          <img src="Image/About-CU9S3T4.jpg" alt="City Care Hospital team" class="about-img">
-          <div class="about-quote-card">
-            <div class="d-flex align-items-center gap-3">
-              <img src="https://placehold.co/56x56/2c3e3d/ffffff?text=18" class="rounded-circle" alt="18 years">
+    <div class="row mb-5">
+      <div class="col-lg-7 reveal">
+        <span class="badge-outline">CONTACT US</span>
+        <h2 class="section-title mb-0">We'd Love to Hear <em>From You</em></h2>
+        <p class="section-desc mt-3">Whether you have a question about our services, need to book an appointment, or just want to say hello — our team is ready to help.</p>
+      </div>
+    </div>
+
+    <div class="row g-4 g-lg-5">
+      <div class="col-lg-5">
+        <div class="row g-4">
+          <div class="col-sm-6 col-lg-12 reveal">
+            <div class="contact-info-card">
+              <div class="contact-info-icon"><i class="bi bi-telephone-fill"></i></div>
               <div>
-                <h6 class="mb-0">18+ Years</h6>
-                <small class="text-muted">Of Trusted Care</small>
+                <h6>Call Us</h6>
+                <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                <p><a href="tel:+15551234568">+1 (555) 123-4568</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-12 reveal reveal-delay-1">
+            <div class="contact-info-card">
+              <div class="contact-info-icon"><i class="bi bi-envelope-fill"></i></div>
+              <div>
+                <h6>Email Us</h6>
+                <p><a href="mailto:info@citycare.com">info@citycare.com</a></p>
+                <p><a href="mailto:support@citycare.com">support@citycare.com</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-12 reveal reveal-delay-2">
+            <div class="contact-info-card">
+              <div class="contact-info-icon"><i class="bi bi-geo-alt-fill"></i></div>
+              <div>
+                <h6>Visit Us</h6>
+                <p>123 Wellness Avenue, Green Park, New York, NY 10001</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-12 reveal reveal-delay-3">
+            <div class="contact-info-card">
+              <div class="contact-info-icon"><i class="bi bi-clock-fill"></i></div>
+              <div>
+                <h6>Working Hours</h6>
+                <p>Mon - Fri: 6AM - 10PM</p>
+                <p>Emergency: 24/7</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="reveal reveal-delay-1">
-          <span class="badge-pill-dark">OUR STORY</span>
-          <h2 class="section-title">Committed to Compassionate Care <em>Since 2005</em></h2>
-          <p class="section-desc">City Care Hospital was founded on a simple belief — that every patient deserves expert medical care delivered with genuine compassion. What began as a small community clinic has grown into a trusted multi-specialty hospital, without ever losing sight of that founding promise.</p>
 
-          <div class="feature-row">
-            <div class="feature-icon"><i class="bi bi-award-fill"></i></div>
-            <div>
-              <h6>Certified Specialists</h6>
-              <p>Board-certified doctors across every major specialty.</p>
+      <div class="col-lg-7 reveal reveal-delay-1">
+        <div class="contact-form-card">
+          <h3>Send Us a Message</h3>
+          <p class="text-muted mb-4">Fill out the form below and our team will get back to you within 24 hours.</p>
+          <form class="contact-form" onsubmit="return false;">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" placeholder="Your name" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="you@example.com" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" placeholder="+1 (555) 000-0000">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Subject</label>
+                <select class="form-select">
+                  <option>General Inquiry</option>
+                  <option>Book Appointment</option>
+                  <option>Billing Question</option>
+                  <option>Feedback</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" rows="4" placeholder="Tell us how we can help..." required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-dark-pill">Send Message <i class="bi bi-send-fill"></i></button>
+              </div>
             </div>
-          </div>
-          <div class="feature-row">
-            <div class="feature-icon"><i class="bi bi-cpu-fill"></i></div>
-            <div>
-              <h6>Modern Technology</h6>
-              <p>State-of-the-art diagnostic and treatment equipment.</p>
-            </div>
-          </div>
-          <div class="feature-row">
-            <div class="feature-icon"><i class="bi bi-heart-pulse-fill"></i></div>
-            <div>
-              <h6>Patient-First Approach</h6>
-              <p>Personalized treatment plans built around you, not the other way around.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row stats-row text-center reveal reveal-delay-2">
-      <div class="col-6 col-md-3">
-        <h3>18<span>+</span></h3>
-        <p>Years of Service</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <h3>45<span>+</span></h3>
-        <p>Expert Doctors</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <h3>12k<span>+</span></h3>
-        <p>Happy Patients</p>
-      </div>
-      <div class="col-6 col-md-3">
-        <h3>24<span>/7</span></h3>
-        <p>Emergency Care</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SECTION 2 — MISSION, VISION & VALUES ============ -->
-<section class="purpose-section section-pad">
-  <div class="container">
-    <div class="row justify-content-center text-center mb-5">
-      <div class="col-lg-7 reveal">
-        <span class="badge-pill-dark">OUR PURPOSE</span>
-        <h2 class="section-title">The Principles That Guide <em>Every Decision</em> We Make</h2>
-        <p class="section-desc mx-auto">From the first consultation to long-term care, these three commitments shape how we treat every patient who walks through our doors.</p>
-      </div>
-    </div>
-
-    <div class="row g-4">
-      <div class="col-lg-4 col-md-6">
-        <div class="purpose-card reveal">
-          <div class="purpose-icon"><i class="bi bi-bullseye"></i></div>
-          <h5>Our Mission</h5>
-          <p>To deliver accessible, high-quality healthcare with compassion, integrity, and respect for every patient we serve.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="purpose-card reveal reveal-delay-1">
-          <div class="purpose-icon"><i class="bi bi-eye-fill"></i></div>
-          <h5>Our Vision</h5>
-          <p>To be the region's most trusted healthcare provider, recognized for clinical excellence and genuine patient care.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="purpose-card reveal reveal-delay-2">
-          <div class="purpose-icon"><i class="bi bi-heart-fill"></i></div>
-          <h5>Our Values</h5>
-          <p>Compassion, integrity, excellence, and innovation — the four pillars behind every treatment we provide.</p>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ SECTION 3 — WHY CHOOSE US ============ -->
-<section class="why-section section-pad">
+<!-- ============ SECTION 2 — MAP + DEPARTMENT CONTACTS ============ -->
+<section class="find-us-section section-pad">
   <div class="container">
-    <div class="row justify-content-center text-center mb-5">
+    <div class="row mb-5">
       <div class="col-lg-7 reveal">
-        <span class="badge-outline">WHY CHOOSE US</span>
-        <h2 class="section-title">Healthcare Built Around <em>Trust</em> and Expertise</h2>
-        <p class="section-desc mx-auto">Here's what sets City Care apart when it comes to caring for you and your family.</p>
+        <span class="badge-outline">FIND US</span>
+        <h2 class="section-title mb-0">Visit Our <em>Hospital Campus</em></h2>
       </div>
     </div>
 
-    <div class="row g-4">
-      <div class="col-lg-4 col-md-6">
-        <div class="why-card reveal">
-          <div class="why-icon"><i class="bi bi-people-fill"></i></div>
-          <h6>Experienced Team</h6>
-          <p>Skilled physicians and support staff dedicated to your wellbeing.</p>
+    <div class="row g-4 g-lg-5 align-items-stretch">
+      <div class="col-lg-7 reveal">
+        <div class="contact-map-wrap">
+          <iframe
+            src="https://www.google.com/maps?q=New+York,+NY&output=embed"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="City Care Hospital location">
+          </iframe>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="why-card reveal reveal-delay-1">
-          <div class="why-icon"><i class="bi bi-shield-check"></i></div>
-          <h6>Safety First</h6>
-          <p>Rigorous safety protocols and hygiene standards throughout.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="why-card reveal reveal-delay-2">
-          <div class="why-icon"><i class="bi bi-clock-history"></i></div>
-          <h6>24/7 Availability</h6>
-          <p>Round-the-clock emergency and critical care services.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="why-card reveal">
-          <div class="why-icon"><i class="bi bi-cash-coin"></i></div>
-          <h6>Transparent Pricing</h6>
-          <p>Clear, upfront costs with no hidden charges, ever.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="why-card reveal reveal-delay-1">
-          <div class="why-icon"><i class="bi bi-building"></i></div>
-          <h6>Modern Facilities</h6>
-          <p>Comfortable, well-equipped spaces designed for healing.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="why-card reveal reveal-delay-2">
-          <div class="why-icon"><i class="bi bi-graph-up-arrow"></i></div>
-          <h6>Proven Outcomes</h6>
-          <p>Consistently high patient satisfaction and recovery rates.</p>
+
+      <div class="col-lg-5 reveal reveal-delay-1">
+        <div class="dept-contact-list">
+          <div class="dept-contact-card">
+            <div class="dept-contact-icon"><i class="bi bi-heart-pulse"></i></div>
+            <div>
+              <h6>Emergency Department</h6>
+              <p>+1 (555) 911-0000 &middot; emergency@citycare.com</p>
+            </div>
+          </div>
+          <div class="dept-contact-card">
+            <div class="dept-contact-icon"><i class="bi bi-person-badge"></i></div>
+            <div>
+              <h6>Front Desk / Reception</h6>
+              <p>+1 (555) 123-4567 &middot; reception@citycare.com</p>
+            </div>
+          </div>
+          <div class="dept-contact-card">
+            <div class="dept-contact-icon"><i class="bi bi-calendar-check"></i></div>
+            <div>
+              <h6>Appointments</h6>
+              <p>+1 (555) 123-4590 &middot; appointments@citycare.com</p>
+            </div>
+          </div>
+          <div class="dept-contact-card">
+            <div class="dept-contact-icon"><i class="bi bi-receipt"></i></div>
+            <div>
+              <h6>Billing &amp; Insurance</h6>
+              <p>+1 (555) 123-4599 &middot; billing@citycare.com</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -256,7 +252,7 @@
   <div class="container">
     <div class="row g-5">
       <div class="col-lg-4">
-        <a class="footer-brand" href="index.html"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
+        <a class="footer-brand" href="index.php"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
         <p>Dedicated to providing expert healthcare with advanced technology and treatments to ensure your well-being and a healthier future.</p>
         <div class="footer-socials">
           <a href="#"><i class="bi bi-linkedin"></i></a>
@@ -268,7 +264,7 @@
       <div class="col-lg-2 col-6">
         <h6>Company</h6>
         <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.php">About Us</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="doctors.php">Our Doctors</a></li>
           <li><a href="#">Our Patients</a></li>
@@ -277,10 +273,10 @@
       <div class="col-lg-2 col-6">
         <h6>Services</h6>
         <ul class="footer-links">
-          <li><a href="services.html">General Consultation</a></li>
-          <li><a href="services.html">Specialized Treatment</a></li>
-          <li><a href="services.html">Emergency Care</a></li>
-          <li><a href="services.html">Medical Checkup</a></li>
+          <li><a href="services.php">General Consultation</a></li>
+          <li><a href="services.php">Specialized Treatment</a></li>
+          <li><a href="services.php">Emergency Care</a></li>
+          <li><a href="services.php">Medical Checkup</a></li>
         </ul>
       </div>
       <div class="col-lg-4">

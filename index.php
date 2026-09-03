@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/includes/user_auth.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +23,7 @@
 <header class="site-header" id="siteHeader">
   <nav class="navbar navbar-light bg-white">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="index.php">
         <i class="bi bi-heart-pulse-fill"></i>City Care
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
@@ -32,14 +35,18 @@
       <div class="collapse navbar-collapse" id="navMenu">
         <div class="mobile-menu-card">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
-            <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
             <li class="nav-item"><a class="nav-link" href="doctors.php">Doctors</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
           </ul>
           <div class="d-flex gap-2 justify-content-center mt-3 mt-lg-0">
-            <a href="login.php" class="btn btn-login">Login</a>
+            <?php if ($isLoggedIn): ?>
+              <a href="logout.php" class="btn btn-login"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            <?php else: ?>
+              <a href="login.php" class="btn btn-login">Login</a>
+            <?php endif; ?>
             <a href="appointment.html" class="btn btn-dark-pill">
               Book Appointment <i class="bi bi-arrow-right"></i>
             </a>
@@ -125,7 +132,7 @@
           </div>
         </div>
 
-        <a href="about.html" class="btn btn-dark-pill mt-3">More About Us <i class="bi bi-arrow-right"></i></a>
+        <a href="about.php" class="btn btn-dark-pill mt-3">More About Us <i class="bi bi-arrow-right"></i></a>
       </div>
     </div>
 
@@ -160,7 +167,7 @@
           <h2 class="section-title mb-0">Comprehensive Care for <em>Every Need</em></h2>
         </div>
         <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-          <a href="services.html" class="btn btn-dark-pill">View All Services <i class="bi bi-arrow-right"></i></a>
+          <a href="services.php" class="btn btn-dark-pill">View All Services <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
 
@@ -489,7 +496,7 @@
         <div class="faq-help-card">
           <h6>Have More Questions?</h6>
           <p class="mb-3">Our support team is happy to help — reach out any time and we'll get back to you quickly.</p>
-          <a href="contact.html" class="btn btn-dark-pill">Get Free Consultation <i class="bi bi-arrow-right"></i></a>
+          <a href="contact.php" class="btn btn-dark-pill">Get Free Consultation <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
       <div class="col-lg-8 reveal reveal-delay-1">
@@ -614,7 +621,7 @@
   <div class="container">
     <div class="row g-5">
       <div class="col-lg-4">
-        <a class="footer-brand" href="index.html"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
+        <a class="footer-brand" href="index.php"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
         <p>Dedicated to providing expert healthcare with advanced technology and treatments to ensure your well-being and a healthier future.</p>
         <div class="footer-socials">
           <a href="#"><i class="bi bi-linkedin"></i></a>
@@ -626,7 +633,7 @@
       <div class="col-lg-2 col-6">
         <h6>Company</h6>
         <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.php">About Us</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="doctors.php">Our Doctors</a></li>
           <li><a href="#">Our Patients</a></li>
@@ -635,10 +642,10 @@
       <div class="col-lg-2 col-6">
         <h6>Services</h6>
         <ul class="footer-links">
-          <li><a href="services.html">General Consultation</a></li>
-          <li><a href="services.html">Specialized Treatment</a></li>
-          <li><a href="services.html">Emergency Care</a></li>
-          <li><a href="services.html">Medical Checkup</a></li>
+          <li><a href="services.php">General Consultation</a></li>
+          <li><a href="services.php">Specialized Treatment</a></li>
+          <li><a href="services.php">Emergency Care</a></li>
+          <li><a href="services.php">Medical Checkup</a></li>
         </ul>
       </div>
       <div class="col-lg-4">

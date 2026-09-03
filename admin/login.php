@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="admin-login-body">
   <div class="admin-login-card">
-    <a href="<?php echo BASE_URL; ?>/index.html" class="admin-logo mb-4">
+    <a href="<?php echo BASE_URL; ?>/index.php" class="admin-logo mb-4">
       <i class="bi bi-heart-pulse-fill"></i>City Care <span>Admin</span>
     </a>
     <h5 class="mb-1">Welcome back</h5>

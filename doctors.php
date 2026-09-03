@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/includes/user_auth.php';
 require_once __DIR__ . '/config/db.php';
 
 $departments = $pdo->query('SELECT id, name FROM departments ORDER BY name')->fetchAll();
@@ -53,7 +54,7 @@ $doctors = $stmt->fetchAll();
 <header class="site-header" id="siteHeader">
   <nav class="navbar navbar-light bg-white">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="index.php">
         <i class="bi bi-heart-pulse-fill"></i>City Care
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
@@ -65,14 +66,18 @@ $doctors = $stmt->fetchAll();
       <div class="collapse navbar-collapse" id="navMenu">
         <div class="mobile-menu-card">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="services.php">Services</a></li>
             <li class="nav-item"><a class="nav-link active" href="doctors.php">Doctors</a></li>
-            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
           </ul>
           <div class="d-flex gap-2 justify-content-center mt-3 mt-lg-0">
-            <a href="login.php" class="btn btn-login">Login</a>
+            <?php if ($isLoggedIn): ?>
+              <a href="logout.php" class="btn btn-login"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            <?php else: ?>
+              <a href="login.php" class="btn btn-login">Login</a>
+            <?php endif; ?>
             <a href="appointment.html" class="btn btn-dark-pill">
               Book Appointment <i class="bi bi-arrow-right"></i>
             </a>
@@ -92,7 +97,7 @@ $doctors = $stmt->fetchAll();
     <h1>Meet Our <em>Expert Doctors</em></h1>
     <nav aria-label="breadcrumb">
       <ol class="page-header-breadcrumb">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.php">Home</a></li>
         <li class="active">Doctors</li>
       </ol>
     </nav>
@@ -102,13 +107,16 @@ $doctors = $stmt->fetchAll();
 <!-- ============ FILTER BAR ============ -->
 <section class="doctor-filter-bar">
   <div class="container">
-    <form method="get" class="row g-3 align-items-center justify-content-center">
+    <form method="get" class="row g-3 align-items-center justify-content-center" id="doctorFilterForm">
       <div class="col-md-5">
-        <input type="text" name="q" class="form-control" placeholder="Search doctor by name..."
-               value="<?php echo htmlspecialchars($search); ?>">
+        <div class="doctor-search-wrap">
+          <input type="text" name="q" id="doctorSearchInput" class="form-control" placeholder="Search doctor by name..."
+                 value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
+          <div class="doctor-suggest-box" id="doctorSuggestBox"></div>
+        </div>
       </div>
       <div class="col-md-4">
-        <select name="department" class="form-select">
+        <select name="department" id="doctorDeptSelect" class="form-select">
           <option value="">All Departments</option>
           <?php foreach ($departments as $dept): ?>
             <option value="<?php echo $dept['id']; ?>" <?php echo ((string)$deptId === (string)$dept['id']) ? 'selected' : ''; ?>>
@@ -122,11 +130,9 @@ $doctors = $stmt->fetchAll();
           <i class="bi bi-search"></i> Search
         </button>
       </div>
-      <?php if ($search !== '' || $deptId !== ''): ?>
-        <div class="col-12 text-center">
-          <a href="doctors.php" class="doctor-clear-filter">Clear filters <i class="bi bi-x-circle"></i></a>
-        </div>
-      <?php endif; ?>
+      <div class="col-12 text-center" id="doctorClearWrap" style="<?php echo ($search !== '' || $deptId !== '') ? '' : 'display:none;'; ?>">
+        <a href="doctors.php" class="doctor-clear-filter" id="doctorClearLink">Clear filters <i class="bi bi-x-circle"></i></a>
+      </div>
     </form>
   </div>
 </section>
@@ -134,37 +140,9 @@ $doctors = $stmt->fetchAll();
 <!-- ============ DOCTORS GRID ============ -->
 <section class="doctor-grid-section section-pad">
   <div class="container">
-    <?php if (!$doctors): ?>
-      <div class="text-center text-muted py-5">
-        <i class="bi bi-emoji-frown display-6 d-block mb-3"></i>
-        No doctors matched your search. Try a different name or department.
-      </div>
-    <?php else: ?>
-      <div class="row g-4">
-        <?php foreach ($doctors as $doc): ?>
-          <div class="col-lg-3 col-md-6 reveal">
-            <div class="doctor-card">
-              <div class="doctor-card-img">
-                <?php if ($doc['photo']): ?>
-                  <img src="Image/doctors/<?php echo htmlspecialchars($doc['photo']); ?>" alt="<?php echo htmlspecialchars($doc['name']); ?>">
-                <?php else: ?>
-                  <span class="doctor-card-img-placeholder"><i class="bi bi-person-fill"></i></span>
-                <?php endif; ?>
-                <span class="doctor-card-dept"><?php echo htmlspecialchars($doc['department_name']); ?></span>
-              </div>
-              <div class="doctor-card-body">
-                <h6><?php echo htmlspecialchars($doc['name']); ?></h6>
-                <p class="doctor-card-designation"><?php echo htmlspecialchars($doc['designation']); ?></p>
-                <p class="doctor-card-exp"><i class="bi bi-briefcase-fill"></i> <?php echo (int)$doc['experience_years']; ?> Years Experience</p>
-                <a href="appointment.html?doctor=<?php echo $doc['id']; ?>" class="btn btn-outline-dark-pill w-100">
-                  <i class="bi bi-calendar-check"></i> Book Appointment
-                </a>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    <?php endif; ?>
+    <div id="doctorGridContainer">
+      <?php require __DIR__ . '/partials/doctor-grid.php'; ?>
+    </div>
   </div>
 </section>
 
@@ -190,7 +168,7 @@ $doctors = $stmt->fetchAll();
   <div class="container">
     <div class="row g-5">
       <div class="col-lg-4">
-        <a class="footer-brand" href="index.html"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
+        <a class="footer-brand" href="index.php"><i class="bi bi-heart-pulse-fill"></i>City Care</a>
         <p>Dedicated to providing expert healthcare with advanced technology and treatments to ensure your well-being and a healthier future.</p>
         <div class="footer-socials">
           <a href="#"><i class="bi bi-linkedin"></i></a>
@@ -202,7 +180,7 @@ $doctors = $stmt->fetchAll();
       <div class="col-lg-2 col-6">
         <h6>Company</h6>
         <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.php">About Us</a></li>
           <li><a href="#">Careers</a></li>
           <li><a href="doctors.php">Our Doctors</a></li>
           <li><a href="#">Our Patients</a></li>
@@ -211,10 +189,10 @@ $doctors = $stmt->fetchAll();
       <div class="col-lg-2 col-6">
         <h6>Services</h6>
         <ul class="footer-links">
-          <li><a href="services.html">General Consultation</a></li>
-          <li><a href="services.html">Specialized Treatment</a></li>
-          <li><a href="services.html">Emergency Care</a></li>
-          <li><a href="services.html">Medical Checkup</a></li>
+          <li><a href="services.php">General Consultation</a></li>
+          <li><a href="services.php">Specialized Treatment</a></li>
+          <li><a href="services.php">Emergency Care</a></li>
+          <li><a href="services.php">Medical Checkup</a></li>
         </ul>
       </div>
       <div class="col-lg-4">
@@ -276,6 +254,183 @@ $doctors = $stmt->fetchAll();
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
     revealEls.forEach(function (el) { observer.observe(el); });
+  });
+
+  /* ============ LIVE SEARCH + AUTOSUGGEST ============ */
+  document.addEventListener('DOMContentLoaded', function () {
+    var form          = document.getElementById('doctorFilterForm');
+    var searchInput   = document.getElementById('doctorSearchInput');
+    var deptSelect    = document.getElementById('doctorDeptSelect');
+    var gridContainer = document.getElementById('doctorGridContainer');
+    var suggestBox    = document.getElementById('doctorSuggestBox');
+    var clearWrap     = document.getElementById('doctorClearWrap');
+    var clearLink     = document.getElementById('doctorClearLink');
+    if (!form || !searchInput || !gridContainer || !suggestBox) return;
+
+    var debounceTimer = null;
+    var searchAbort    = null;
+    var suggestAbort   = null;
+
+    function revealNewCards() {
+      gridContainer.querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) {
+        // Force a reflow so the transition actually plays on freshly-inserted nodes.
+        void el.offsetWidth;
+        el.classList.add('is-visible');
+      });
+    }
+
+    function buildParams() {
+      var params = new URLSearchParams();
+      var q = searchInput.value.trim();
+      if (q !== '') params.set('q', q);
+      if (deptSelect.value !== '') params.set('department', deptSelect.value);
+      return params;
+    }
+
+    function syncClearLink(params) {
+      if (!clearWrap) return;
+      clearWrap.style.display = (params.get('q') || params.get('department')) ? '' : 'none';
+    }
+
+    function syncUrl(params) {
+      var qs = params.toString();
+      var newUrl = window.location.pathname + (qs ? '?' + qs : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    function runSearch() {
+      var params = buildParams();
+      syncClearLink(params);
+      syncUrl(params);
+
+      if (searchAbort) searchAbort.abort();
+      searchAbort = new AbortController();
+
+      gridContainer.classList.add('is-loading');
+
+      fetch('doctors_search.php?' + params.toString(), { signal: searchAbort.signal })
+        .then(function (res) { return res.text(); })
+        .then(function (html) {
+          gridContainer.innerHTML = html;
+          gridContainer.classList.remove('is-loading');
+          revealNewCards();
+        })
+        .catch(function (err) {
+          if (err.name !== 'AbortError') {
+            gridContainer.classList.remove('is-loading');
+          }
+        });
+    }
+
+    function closeSuggestions() {
+      suggestBox.classList.remove('is-open');
+      suggestBox.innerHTML = '';
+    }
+
+    function renderSuggestions(list, query) {
+      if (!list.length) { closeSuggestions(); return; }
+      var q = query.toLowerCase();
+
+      suggestBox.innerHTML = list.map(function (doc) {
+        var name = doc.name;
+        var idx = name.toLowerCase().indexOf(q);
+        var nameHtml = name;
+        if (idx !== -1 && q !== '') {
+          nameHtml = escapeHtml(name.slice(0, idx))
+            + '<strong>' + escapeHtml(name.slice(idx, idx + q.length)) + '</strong>'
+            + escapeHtml(name.slice(idx + q.length));
+        } else {
+          nameHtml = escapeHtml(name);
+        }
+
+        var avatar = doc.photo
+          ? '<img src="Image/doctors/' + encodeURI(doc.photo) + '" alt="">'
+          : '<i class="bi bi-person-fill"></i>';
+
+        return '<button type="button" class="doctor-suggest-item" data-name="' + escapeHtml(name) + '">'
+          + '<span class="doctor-suggest-avatar">' + avatar + '</span>'
+          + '<span class="doctor-suggest-text">'
+          +   '<span class="doctor-suggest-name">' + nameHtml + '</span>'
+          +   '<span class="doctor-suggest-meta">' + escapeHtml(doc.designation) + ' &middot; ' + escapeHtml(doc.department_name) + '</span>'
+          + '</span></button>';
+      }).join('');
+
+      suggestBox.classList.add('is-open');
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function fetchSuggestions(query) {
+      if (suggestAbort) suggestAbort.abort();
+      if (query === '') { closeSuggestions(); return; }
+
+      suggestAbort = new AbortController();
+      fetch('doctors_suggest.php?q=' + encodeURIComponent(query), { signal: suggestAbort.signal })
+        .then(function (res) { return res.json(); })
+        .then(function (list) { renderSuggestions(list, query); })
+        .catch(function (err) {
+          if (err.name !== 'AbortError') closeSuggestions();
+        });
+    }
+
+    searchInput.addEventListener('input', function () {
+      var q = searchInput.value.trim();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        runSearch();
+        fetchSuggestions(q);
+      }, 300);
+    });
+
+    deptSelect.addEventListener('change', function () {
+      closeSuggestions();
+      runSearch();
+    });
+
+    suggestBox.addEventListener('click', function (e) {
+      var item = e.target.closest('.doctor-suggest-item');
+      if (!item) return;
+      searchInput.value = item.dataset.name;
+      closeSuggestions();
+      runSearch();
+    });
+
+    searchInput.addEventListener('focus', function () {
+      if (searchInput.value.trim() !== '' && suggestBox.innerHTML !== '') {
+        suggestBox.classList.add('is-open');
+      }
+    });
+
+    searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeSuggestions();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target !== searchInput && !suggestBox.contains(e.target)) {
+        closeSuggestions();
+      }
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearTimeout(debounceTimer);
+      closeSuggestions();
+      runSearch();
+    });
+
+    if (clearLink) {
+      clearLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        searchInput.value = '';
+        deptSelect.value = '';
+        closeSuggestions();
+        runSearch();
+      });
+    }
   });
 </script>
 </body>
